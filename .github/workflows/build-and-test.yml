@@ -12,13 +12,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - uses: bazelbuild/setup-bazelisk@v3
+      - name: Test requirements files
+        run: |
+          bazel test requirements.update
+        shell: bash
       - name: Run requirements update and output 
         run: |
           bazel run requirements.update
           cat requirements_*.txt
         shell: bash
-      - name : Upload updated requirements file
+        if: failure()
+      - name: Upload updated requirements file
         uses: actions/upload-artifact@v4
         with: 
           name: ${{ matrix.os }}-requirements
           path: requirements_*_lock.txt 
+        if: failure()
