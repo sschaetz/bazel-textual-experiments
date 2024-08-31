@@ -17,5 +17,8 @@ jobs:
           bazel run requirements.update
           cat requirements_*.txt
         shell: bash
-     
-      
+      - name : Upload updated requirements file
+        uses: actions/upload-artifact@v4
+        with: 
+          name: ${{ matrix.os }}-requirements
+          path: requirements_*_lock.txt 
