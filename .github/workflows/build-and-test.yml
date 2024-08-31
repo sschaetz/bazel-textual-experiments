@@ -28,3 +28,6 @@ jobs:
           name: ${{ matrix.os }}-requirements
           path: requirements_output.txt
         if: failure()
+      - name: Run tests
+        run: bazel test ...
+        shell: bash
