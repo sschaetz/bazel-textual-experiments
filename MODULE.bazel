@@ -1,0 +1,29 @@
+bazel_dep(name = "rules_python", version = "0.35.0")
+
+PYTHON_VERSION = "3.12.4"
+
+# We next initialize the python toolchain using the extension.
+# You can set different Python versions in this block.
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    python_version = PYTHON_VERSION,
+)
+
+pip.parse(
+    experimental_target_platforms = [
+        # Using host python version
+        "linux_*",
+        "osx_*",
+        "windows_*",
+    ],
+    hub_name = "pip",
+    python_version = PYTHON_VERSION,
+
+    # The requirements files for each platform that we want to support.
+    requirements_by_platform = {
+        # Default requirements file for needs to explicitly provide the platforms
+        "//:requirements_linux_lock.txt": "linux_*",
+        "//:requirements_macos_lock.txt": "osx_*",
+        "//:requirements_windows_lock.txt": "windows_*",
+    },
+)
