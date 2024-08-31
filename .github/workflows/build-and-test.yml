@@ -18,8 +18,11 @@ jobs:
         shell: bash
       - name: Run requirements update and output 
         run: |
+          echo "================================================"
           bazel run requirements.update
-          cat requirements_*.txt
+          echo "================================================"
+          cat requirements_windows_lock.txt
+          echo "================================================"
         shell: bash
         if: failure()
       - name: Upload updated requirements file
