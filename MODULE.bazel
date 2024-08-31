@@ -24,6 +24,14 @@ pip.parse(
         "//:requirements_linux_lock.txt": "linux_*",
         "//:requirements_windows_lock.txt": "windows_*",
     },
+    experimental_requirement_cycles = {
+        "textual": [
+            "textual",
+            "rich",
+            "markdown-it-py",
+            "mdit-py-plugins",
+        ]
+    }
 )
 
 use_repo(pip, "pip")
