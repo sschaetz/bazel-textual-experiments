@@ -35,3 +35,5 @@ pip.parse(
 )
 
 use_repo(pip, "pip")
+
+bazel_dep(name = "rules_pkg", version = "1.0.1")
