@@ -503,7 +503,7 @@ numpy==2.1.0 \
     --hash=sha256:f8e93a01a35be08d31ae33021e5268f157a2d60ebd643cfc15de6ab8e4722eb1 \
     --hash=sha256:fe76d75b345dc045acdbc006adcb197cc680754afd6c259de60d358d60c93736 \
     --hash=sha256:ffbd6faeb190aaf2b5e9024bac9622d2ee549b7ec89ef3a9373fa35313d44e0e
-    # via -r D:/a/bazel-textual-experiments/bazel-textual-experiments/requirements.in
+    # via -r requirements.in
 platformdirs==4.2.2 \
     --hash=sha256:2d7a1657e36a80ea911db832a8a6ece5ee53d8de21edd5cc5879af6530b1bfee \
     --hash=sha256:38b7b51f512eed9e84a22788b4bce1de17c0adb134d6becb09836e37d8654cd3
@@ -522,13 +522,13 @@ textual==0.79.1 \
     --hash=sha256:2aaa9778beac5e56957794ee492bd8d281d39516ccb0e507e726484a1327d8b2 \
     --hash=sha256:75f26c0a8829560a1a8cc739f758c2c1c684246e27166acb3f4ad40110200692
     # via
-    #   -r D:/a/bazel-textual-experiments/bazel-textual-experiments/requirements.in
+    #   -r requirements.in
     #   textual-dev
     #   textual-serve
 textual-dev==1.6.1 \
     --hash=sha256:0d0d4523a09566bae56eb9ebc4fcbb09069d0f335448e6b9b10dd2d805606bd8 \
     --hash=sha256:de93279da6dd0772be88a83e494be1bc895df0a0c3e47bcd48fa1acb1a83a34b
-    # via -r D:/a/bazel-textual-experiments/bazel-textual-experiments/requirements.in
+    # via -r requirements.in
 textual-serve==1.1.0 \
     --hash=sha256:9332716464a1fca38bb5421ef29e38bdc5d304e5a15faa3ae1f8dcb185a7885c \
     --hash=sha256:aaa40bc4b75f6a1e73a2d7f6e667f5555a552d8040129a95e52789a3de5d9154
