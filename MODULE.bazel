@@ -9,9 +9,9 @@ python.toolchain(
     python_version = PYTHON_VERSION,
 )
 
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
 pip.parse(
     experimental_target_platforms = [
-        # Using host python version
         "linux_*",
         "osx_*",
         "windows_*",
@@ -19,11 +19,12 @@ pip.parse(
     hub_name = "pip",
     python_version = PYTHON_VERSION,
 
-    # The requirements files for each platform that we want to support.
     requirements_by_platform = {
-        # Default requirements file for needs to explicitly provide the platforms
+        "//:requirements_darwin_lock.txt": "osx_*",
         "//:requirements_linux_lock.txt": "linux_*",
-        "//:requirements_macos_lock.txt": "osx_*",
         "//:requirements_windows_lock.txt": "windows_*",
     },
 )
+
+use_repo(python, "python_3_11", "python_versions")
+use_repo(pip, "pip")

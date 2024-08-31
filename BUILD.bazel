@@ -1,0 +1,10 @@
+load("@python_versions//3.11:defs.bzl", "compile_pip_requirements")
+
+compile_pip_requirements(
+    name = "requirements",
+    timeout = "moderate",
+    src = "requirements.in",
+    requirements_darwin = "requirements_darwin_lock.txt",
+    requirements_linux = "requirements_linux_lock.txt",
+    requirements_windows = "requirements_windows_lock.txt",
+)
