@@ -14,7 +14,7 @@ jobs:
       - uses: bazelbuild/setup-bazelisk@v3
       - name: Test requirements files
         run: |
-          bazel test requirements.update
+          bazel test requirements_test
         shell: bash
       - name: Run requirements update and output 
         run: |
