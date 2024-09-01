@@ -15,8 +15,9 @@ def run():
     rfile = Path(r.Rlocation("_main/src/data.txt"))
     assert "Test File" == rfile.read_text()
 
-
 if __name__ == "__main__":
     if not run():
+        print("Failed to run example!")
         exit(1)
+    print("Success!")
     exit(0)

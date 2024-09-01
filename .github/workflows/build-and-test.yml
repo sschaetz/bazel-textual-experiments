@@ -31,3 +31,35 @@ jobs:
       - name: Run tests
         run: bazel test ...
         shell: bash
+      - name: Build example tarballs
+        run: | 
+          bazel build //src:example_no_ui_tar
+          bazel build //src:example_tar
+        shell: bash
+      - name: Upload example tarballs
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}-example-tarballs
+          path: |
+            bazel-bin/src/example_no_ui_tar.tar
+        shell: bash
+
+# Run tarbal on a fresh instance.
+
+jobs:
+  test_tarballs_matrix:
+    needs: [build_and_test_matrix]
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14, windows-2022]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.os }}-example-tarballs
+      - name: extract and run tarball
+        run: |
+          tar -xvf bazel-bin/src/example_no_ui_tar/example_no_ui_tar.tar -C .
+          ./src/example_no_ui.py
