@@ -56,7 +56,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ matrix.os }}-example-tarballs
+          path: example_no_ui_tar.tar 
       - name: extract and run tarball
         run: |
-          tar -xvf bazel-bin/src/example_no_ui_tar/example_no_ui_tar.tar -C .
+          tar -xvf example_no_ui_tar.tar -C .
           ./src/example_no_ui.py
