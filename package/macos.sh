@@ -1,36 +1,53 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Check if an output location argument is provided
+if [ $# -eq 0 ]; then
+    echo "Error: Please provide an output path for the app bundle."
+    echo "Usage: $0 <output>"
+    exit 1
+fi
+
+# Store the output location
+output=$(cd "$(dirname "$1")" && pwd)/$(basename "$1")
+
+# Create a temporary directory that will be automatically removed when the script exits
+temp_dir=$(mktemp -d)
+trap 'rm -rf "$temp_dir"' EXIT
+
 bazel build //src:example_tar
 
 # Untar the example.tar file to the staging directory
-mkdir -p /tmp/staging/extracted 
-tar -xvf bazel-bin/src/example_tar.tar -C /tmp/staging/extracted
+mkdir -p "$temp_dir/extracted"
+tar -xvf bazel-bin/src/example_tar.tar -C "$temp_dir/extracted"
 
 # Create the new app package
-mkdir -p /tmp/staging/example.app/Contents/MacOS
-mkdir -p /tmp/staging/example.app/Contents/Resources
+mkdir -p "$temp_dir/example.app/Contents/MacOS"
+mkdir -p "$temp_dir/example.app/Contents/Resources"
 
 # Create the Info.plist
-pushd /tmp/staging/example.app/Contents
+pushd "$temp_dir/example.app/Contents"
 /usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string com.example.com.example" Info.plist
 /usr/libexec/PlistBuddy -c "Add :CFBundleExecutable string Example" Info.plist
 
 # Copy the executable
-cp /tmp/staging/extracted/example \
-  /tmp/staging/example.app/Contents/MacOS/example
-cp -r /tmp/staging/extracted/example.runfiles \
-  /tmp/staging/example.app/Contents/MacOS/example.runfiles
+cp "$temp_dir/extracted/example" \
+  "$temp_dir/example.app/Contents/MacOS/example"
+cp -r "$temp_dir/extracted/example.runfiles" \
+  "$temp_dir/example.app/Contents/MacOS/example.runfiles"
 
 # Copy the runfiles. 
-cp -r /tmp/staging/extracted/example.runfiles/* /tmp/staging/example.app/Contents/Resources/
+cp -r "$temp_dir/extracted/example.runfiles/"* "$temp_dir/example.app/Contents/Resources/"
 
 # Move any shared libraries to the MacOS directory
-find /tmp/staging/extracted/ -name "*.dylib" -exec mv {} /tmp/staging/example.app/Contents/MacOS \;
+find "$temp_dir/extracted/" -name "*.dylib" -exec mv {} "$temp_dir/example.app/Contents/MacOS" \;
 
 # Make everything writeable
-chmod -R +w /tmp/staging/example.app/
+chmod -R +w "$temp_dir/example.app/"
 
 # codesign the app bundle
-codesign -s '-' -f /tmp/staging/example.app 
+#codesign -s '-' -f "$temp_dir/example.app"
+
+mv "$temp_dir/example.app" $output
+
 popd
