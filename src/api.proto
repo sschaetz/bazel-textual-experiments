@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package example;
+
+message ExampleMessage {
+    uint32 index = 1;
+    string content = 2;
+}

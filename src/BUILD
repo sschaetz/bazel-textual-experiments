@@ -1,5 +1,18 @@
-load("@rules_python//python:defs.bzl", "py_binary")
 load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@rules_python//python:proto.bzl", "py_proto_library")
+
+proto_library(
+    name = "api_proto",
+    srcs = ["api.proto"],
+)
+
+py_proto_library(
+    name = "api_py_proto",
+    visibility = ["//visibility:public"],
+    deps = [":api_proto"],
+)
 
 py_binary(
     name = "example",
@@ -23,9 +36,11 @@ py_binary(
     deps = [
         "@pip//numpy",
         "@rules_python//python/runfiles",
+        ":api_py_proto",
     ],
     data = [
         "data.txt",
+        "api_example.pb.txt",
     ]
 )
 

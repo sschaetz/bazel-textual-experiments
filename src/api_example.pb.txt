@@ -1,0 +1,2 @@
+index: 42
+content: "Message content"
