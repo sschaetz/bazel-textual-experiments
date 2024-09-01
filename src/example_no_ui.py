@@ -1,3 +1,4 @@
+import sys
 import numpy as np
 from pathlib import Path
 
@@ -15,6 +16,11 @@ def run():
     rfile = Path(r.Rlocation("_main/src/data.txt"))
     assert "Test File" == rfile.read_text()
 
+    interpreter_path = sys.executable
+    python_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+    print(f"Python Interpreter: {interpreter_path}\nPython Version: {python_version}")
+    return True
+    
 if __name__ == "__main__":
     if not run():
         print("Failed to run example!")
