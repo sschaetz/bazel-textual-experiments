@@ -13,15 +13,30 @@ The only thing needed should be [bazelisk](https://github.com/bazelbuild/bazelis
 bazel run //src:example  
 ```
 
+## How to Debug
+
+Run in 2 terminals, in the debug terminal we see the app events, in the app
+terminal we see the app itself and can interact with it:
+
+```bash
+# debug terminal:
+bazel run //src:textual -- console
+```
+
+```bash
+# app terminal:
+bazel run //src:example --run_under "//src:textual -- run --dev"
+```
+
 ## TODO 
 
 - [x] use bzlmod to install python and python deps
-- [ ] textual dev flow
-- [ ] platforms
-  - [ ] Linux
+- [x ] textual dev flow
+- [x] platforms
+  - [x] Linux
   - [x] Mac
-  - [ ] Windows
-- [ ] cross-platform
-  - [ ] update requirements 
-  - [ ] build cross platform
-- [ ] packaging
+  - [x] Windows
+- [x] cross-platform
+  - [x] update requirements 
+  - [x] build cross platform
+- [x] packaging
