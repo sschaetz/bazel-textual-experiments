@@ -25,8 +25,12 @@ bazel run //src:textual -- console
 
 ```bash
 # app terminal:
-bazel run //src:example --run_under "//src:textual -- run --dev"
+bazel run //src:example --run_under "//src:example_dev -- run --dev"
 ```
+
+Note that for the app terminal we run a special target that has the
+runfiles added to the textual dev tool.
+
 
 ## TODO 
 

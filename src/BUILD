@@ -23,13 +23,27 @@ py_proto_library(
     deps = [":api_proto"],
 )
 
+EXAMPLE_DATA_DEPS = [
+    "example.tcss",
+]
+
+py_console_script_binary(
+    name = "example_dev",
+    pkg = "@pip//textual_dev",
+    script = "textual",
+    visibility = ["//entry_points:__subpackages__"],
+    data = EXAMPLE_DATA_DEPS,
+)
+
 py_binary(
     name = "example",
     srcs = ["example.py"],
     deps = [
         "@pip//textual",
         "@pip//textual_dev",
+        "@rules_python//python/runfiles",
     ],
+    data = EXAMPLE_DATA_DEPS,
 )
 
 pkg_tar(
