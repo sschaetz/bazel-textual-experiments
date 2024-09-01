@@ -42,11 +42,8 @@ jobs:
           name: ${{ matrix.os }}-example-tarballs
           path: |
             bazel-bin/src/example_no_ui_tar.tar
-        shell: bash
 
-# Run tarbal on a fresh instance.
-
-jobs:
+  # Run tarbal on a fresh instance.
   test_tarballs_matrix:
     needs: [build_and_test_matrix]
     strategy:
