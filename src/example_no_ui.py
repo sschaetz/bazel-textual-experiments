@@ -8,6 +8,7 @@ from google.protobuf import text_format
 # `from rules_python.python.runfiles import runfiles`
 # but: https://github.com/bazelbuild/rules_python/issues/1679
 from python.runfiles import runfiles
+from src.cpp_example import mul as cpp_mul
 
 def run():
     interpreter_path = sys.executable
@@ -30,6 +31,9 @@ def run():
     example_message = ExampleMessage()
     text_format.Parse(proto_content, example_message)
     assert example_message.index == 42
+
+    # Test pybind11
+    assert cpp_mul(3, 11) == 33
 
     return True
 

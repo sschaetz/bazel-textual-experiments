@@ -2,8 +2,9 @@ load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
 load("@rules_proto//proto:defs.bzl", "proto_library")
 load("@rules_python//python:defs.bzl", "py_binary")
 load("@rules_python//python:proto.bzl", "py_proto_library")
-
+load("@pybind11_bazel//:build_defs.bzl", "pybind_extension")
 load("@rules_python//python/entry_points:py_console_script_binary.bzl", "py_console_script_binary")
+
 
 # This is how you can define a `pylint` entrypoint which uses the default python version.
 py_console_script_binary(
@@ -23,8 +24,16 @@ py_proto_library(
     deps = [":api_proto"],
 )
 
+pybind_extension(
+    name = "cpp_example",
+    srcs = ["cpp_example.cc"],
+)
+
 EXAMPLE_DATA_DEPS = [
     "example.tcss",
+    ":cpp_example",
+    "data.txt",
+    "api_example.pb.txt",
 ]
 
 py_console_script_binary(
@@ -62,10 +71,7 @@ py_binary(
         "@rules_python//python/runfiles",
         ":api_py_proto",
     ],
-    data = [
-        "data.txt",
-        "api_example.pb.txt",
-    ]
+    data = EXAMPLE_DATA_DEPS, 
 )
 
 pkg_tar(
