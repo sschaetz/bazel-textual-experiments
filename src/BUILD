@@ -16,3 +16,23 @@ pkg_tar(
     ],
     include_runfiles = True,
 )
+
+py_binary(
+    name = "example_no_ui",
+    srcs = ["example_no_ui.py"],
+    deps = [
+        "@pip//numpy",
+        "@rules_python//python/runfiles",
+    ],
+    data = [
+        "data.txt",
+    ]
+)
+
+pkg_tar(
+    name = "example_no_ui_tar",
+    srcs = [
+        ":example_no_ui",
+    ],
+    include_runfiles = True,
+)
