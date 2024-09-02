@@ -12,21 +12,24 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - uses: bazelbuild/setup-bazelisk@v3
       - name: Set output_base variable
         run: |
           # We have to do this because of 
           # https://github.com/protocolbuffers/protobuf/issues/12947 and specifically
           # https://developercommunity.visualstudio.com/t/clexe-compiler-driver-cannot-handle-long-file-path/975889
           if [[ "${{ matrix.os }}" == "windows-2022" ]]; then
-            echo "output_base=C:\O" >> $GITHUB_ENV
+            echo "output_base=d:\\O" >> $GITHUB_ENV
           else
             echo "output_base=$(pwd)/bazel-bin" >> $GITHUB_ENV
           fi 
+          mkdir $output_base
         shell: bash
       - name: Add output_base to .bazelrc
-        run: echo "--output_base=$output_base" >> .bazelrc
+        run: |
+          echo "startup --output_base=$output_base" >> .bazelrc
+          cat .bazelrc
         shell: bash
+      - uses: bazelbuild/setup-bazelisk@v3
       - name: Test requirements files
         run: |
           bazel test requirements_test

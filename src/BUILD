@@ -29,11 +29,17 @@ pybind_extension(
     srcs = ["cpp_example.cc"],
 )
 
+sh_binary(
+    name = "sh_example",
+    srcs = ["sh_example.sh"],
+)
+
 EXAMPLE_DATA_DEPS = [
     "example.tcss",
     ":cpp_example",
     "data.txt",
     "api_example.pb.txt",
+    "sh_example",
 ]
 
 py_console_script_binary(
