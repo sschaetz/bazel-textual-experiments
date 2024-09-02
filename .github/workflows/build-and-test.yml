@@ -18,15 +18,8 @@ jobs:
           # https://github.com/protocolbuffers/protobuf/issues/12947 and specifically
           # https://developercommunity.visualstudio.com/t/clexe-compiler-driver-cannot-handle-long-file-path/975889
           if [[ "${{ matrix.os }}" == "windows-2022" ]]; then
-            echo "output_base=C:/tmp" >> $GITHUB_ENV
-          else
-            echo "output_base=$(pwd)/bazel-bin" >> $GITHUB_ENV
+            echo "startup --output_user_root=C:/tmp" >> .bazelrc
           fi 
-        shell: bash
-      - name: Add output_base to .bazelrc
-        run: |
-          mkdir ${{ env.output_base }}
-          echo "startup --output_user_root=${{ env.output_base }}" >> .bazelrc
         shell: bash
       - uses: bazelbuild/setup-bazelisk@v3
       - name: Test requirements files
@@ -46,7 +39,6 @@ jobs:
         if: failure()
       - name: Run tests
         run: |
-          cat .bazelrc
           bazel test ...
         shell: bash
       - name: Build example tarballs
@@ -59,7 +51,7 @@ jobs:
         with:
           name: ${{ matrix.os }}-example-tarballs
           path: |
-            ${{ env.output_base }}/src/example_no_ui_tar.tar
+            bazel-bin/src/example_no_ui_tar.tar
 
   # Run tarbal on a fresh instance.
   test_tarballs_matrix:
@@ -77,5 +69,6 @@ jobs:
           path: ./ 
       - name: extract and run tarball
         run: |
-          tar -xvf example_no_ui_tar.tar -C .
+          tar -xf example_no_ui_tar.tar -C .
           ./example_no_ui
+        shell: bash
