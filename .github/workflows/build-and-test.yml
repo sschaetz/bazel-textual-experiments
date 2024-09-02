@@ -18,7 +18,7 @@ jobs:
           # https://github.com/protocolbuffers/protobuf/issues/12947 and specifically
           # https://developercommunity.visualstudio.com/t/clexe-compiler-driver-cannot-handle-long-file-path/975889
           if [[ "${{ matrix.os }}" == "windows-2022" ]]; then
-            echo "output_base=d:\\O" >> $GITHUB_ENV
+            echo "output_base=C:/tmp" >> $GITHUB_ENV
           else
             echo "output_base=$(pwd)/bazel-bin" >> $GITHUB_ENV
           fi 
@@ -26,8 +26,7 @@ jobs:
       - name: Add output_base to .bazelrc
         run: |
           mkdir ${{ env.output_base }}
-          # echo "startup --output_base=${{ env.output_base }}" >> .bazelrc
-          cat .bazelrc
+          echo "startup --output_user_root=${{ env.output_base }}" >> .bazelrc
         shell: bash
       - uses: bazelbuild/setup-bazelisk@v3
       - name: Test requirements files
@@ -46,7 +45,9 @@ jobs:
           path: requirements_output.txt
         if: failure()
       - name: Run tests
-        run: bazel test ...
+        run: |
+          cat .bazelrc
+          bazel test ...
         shell: bash
       - name: Build example tarballs
         run: | 
