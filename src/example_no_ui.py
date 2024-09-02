@@ -42,7 +42,7 @@ def run():
     sh_script_path = r.Rlocation("_main/src/sh_example.sh")
 
     # Run the shell script using subprocess
-    result = subprocess.run([sh_script_path], capture_output=True, text=True)
+    result = subprocess.run([sh_script_path], capture_output=True, text=True, shell=True)
 
     # Check if the script ran successfully
     if result.returncode != 0:

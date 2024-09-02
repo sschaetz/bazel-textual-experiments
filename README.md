@@ -35,7 +35,7 @@ runfiles added to the textual dev tool.
 ## TODO 
 
 - [x] use bzlmod to install python and python deps
-- [x ] textual dev flow
+- [x] textual dev flow
 - [x] platforms
   - [x] Linux
   - [x] Mac
