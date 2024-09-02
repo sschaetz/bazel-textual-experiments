@@ -22,11 +22,11 @@ jobs:
           else
             echo "output_base=$(pwd)/bazel-bin" >> $GITHUB_ENV
           fi 
-          mkdir $output_base
         shell: bash
       - name: Add output_base to .bazelrc
         run: |
-          echo "startup --output_base=$output_base" >> .bazelrc
+          mkdir ${{ env.output_base }}
+          echo "startup --output_base=${{ env.output_base }}" >> .bazelrc
           cat .bazelrc
         shell: bash
       - uses: bazelbuild/setup-bazelisk@v3
