@@ -1,3 +1,3 @@
 #!/bin/sh
 
-echo "Running shell script!"
+echo "Good shell script!"

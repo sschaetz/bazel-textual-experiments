@@ -35,6 +35,23 @@ def run():
     # Test pybind11
     assert cpp_mul(3, 11) == 33
 
+    # Test running shell script
+    import subprocess
+
+    # Get the path to the shell script using runfiles
+    sh_script_path = r.Rlocation("_main/src/sh_example.sh")
+
+    # Run the shell script using subprocess
+    result = subprocess.run([sh_script_path], capture_output=True, text=True)
+
+    # Check if the script ran successfully
+    if result.returncode != 0:
+        print(f"Shell script failed with return code {result.returncode}")
+        print(f"Error output: {result.stderr}")
+        return False
+
+    print(f"Shell script output: {result.stdout}")
+
     return True
 
 if __name__ == "__main__":
